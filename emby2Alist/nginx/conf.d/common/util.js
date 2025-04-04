@@ -521,9 +521,10 @@ function getItemInfo(r) {
     : r.args.mediaSourceId;
   const Etag = r.args.Tag;
   const api_key = urlUtil.getDefaultApiKey(r.args);
-  const userId = r.args["UserId"] || r.headersIn["X-Emby-UserId"];
+  let userId = r.args["UserId"] || r.headersIn["X-Emby-UserId"];
   if (!userId) {
-    r.warn("⚠️ Warning: No userId found! Requests might fail.");
+    r.warn("⚠️ Warning: No userId found! Used default userId, if not configured, requests might fail.");
+    userId = config.embyDefaultUserId;
   }
   let itemInfoUri = "";
   if (r.uri.includes("JobItems")) {
